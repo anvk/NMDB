@@ -12,9 +12,12 @@ var sql = require('mssql'),
 // options.dbconfig.password
 // options.dbconfig.server
 // options.dbconfig.database
-var nmdb = function(options) {
+var dataProvider = function(options) {
   var that = {},
-      verbose, parseCallback, dbconfig;
+      verbose,
+      parseCallback,
+      onError,
+      dbconfig;
 
   var defaults = {
     dbconfig: {
@@ -24,6 +27,7 @@ var nmdb = function(options) {
       database: undefined
     },
     parseCallback: undefined,
+    onError: undefined,
     verbose: false,
     debug: false
   };
@@ -33,6 +37,7 @@ var nmdb = function(options) {
 
     verbose = options.verbose;
     parseCallback = options.parseCallback;
+    onError = options.onError;
     dbconfig = options.dbconfig;
 
     return that;
@@ -42,37 +47,51 @@ var nmdb = function(options) {
     return '\'' + func(text) + '\'';
   });
 
+  var log = function(message) {
+    console.log('dataProvider -> ' + message);
+  };
+
   // options.query
   // options.onSuccess
+  // options.onError
   // options.parseCallback
   that.query = function(options) {
     var query = options.query,
         onSuccess = options.onSuccess,
-        queryParseCallback = options.parseCallback || parseCallback;
+        queryParseCallback = options.parseCallback || parseCallback,
+        onError = options.onError || onError;
 
     if (!_.isString(query)) {
-      console.log('query is in a wrong format');
+      log('query is in a wrong format');
       return;
     }
 
+    var errorHandling = function(sql, err) {
+      log('Got an error');
+      console.log(err);
+      if (_.isFunction(onError)) {
+        onError(err);
+      }
+      sql.close();
+    };
+
     sql.connect(dbconfig, function(err) {
       if (err) {
-        console.log(err);
-        sql.close();
+        errorHandling(sql, err);
         return;
       }
       var request = new sql.Request();
       request.multiple = true;
       if (verbose) {
-        console.log('Executing query -> ' + query);
+        log('Executing query -> ' + query);
       }
       request.query(query, function(err, recordset) {
         if (err) {
-          console.log(err);
-          sql.close();
+          errorHandling(sql, err);
           return;
         }
         if (verbose) {
+          log('Retrieved from database -> ' + query);
           console.log(recordset);
         }
         if (_.isFunction(queryParseCallback)) {
@@ -90,6 +109,7 @@ var nmdb = function(options) {
   // options.storProcName
   // options.args
   // options.onSuccess
+  // options.onError
   // options.parseCallback
   that.call = function(options) {
     var storProcName = _.escape(options.storProcName),
@@ -110,11 +130,12 @@ var nmdb = function(options) {
     that.query({
       query: query + ' ' + argsQuery.join(','),
       onSuccess: options.onSuccess,
-      parseCallback: options.parseCallback
+      parseCallback: options.parseCallback,
+      onError: options.onError
     });
   };
 
   return init(options);
 };
 
-module.exports = nmdb;
+module.exports = dataProvider;

@@ -11,3 +11,14 @@ dataLayer.query({
     console.log(data);
   }
 });
+
+dataLayer.call({
+  storProcName: 'getCustomerID',
+  args: {
+    firstName: 'Alex',
+    lastName: 'Novak'
+  },
+  onSuccess: function(data) {
+    console.log(data);
+  }
+});
