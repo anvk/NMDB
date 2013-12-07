@@ -1,0 +1,30 @@
+{
+  "name": "NMDB",
+  "version": "0.1.0",
+  "description": "Node + MSSQ = DataBase layer. Easy to use layer for querying Microsoft databases, built on top of mssql npm module.",
+  "contributors": [
+    {
+      "name": "Alexey Novak",
+      "email": "alexey.novak.mail@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:anvk/NMDB.git"
+  },
+  "keywords": [
+    "database",
+    "db",
+    "dataProvider"
+  ],
+  "dependencies": {
+    "lodash-node": "2.3.0",
+    "node.extend": "1.0.8",
+    "mssql": "0.3.4"
+  },
+  "engine": {
+    "node": ">=0.10"
+  },
+  "main": "main",
+  "license": "MIT"
+}
