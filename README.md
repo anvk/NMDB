@@ -2,11 +2,11 @@
 ====
 
 > NodeJS + MSSQ = DataBase layer. Easy to use layer for querying Microsoft databases, built on top of mssql npm module.
-> Initially created as a part of the [Pine Project](https://github.com/anvk/Pine)
+> Initially created as a part of my [Pine Project](https://github.com/anvk/Pine)
 
 ## Prerequisites
 
-Based on the MSSQL connect for NodeJS -> [mssql](https://github.com/patriksimek/node-mssql)
+Based on the [MSSQL connector for NodeJS](https://github.com/patriksimek/node-mssql)
 
 ## License
 The MIT License (MIT)
