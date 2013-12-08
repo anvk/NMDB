@@ -43,9 +43,24 @@ var defaults = {
 
 > Function to execute a query in the DB
 
+##### options
+
+**query** - query in a string format to be executed in MSSQL database  
+**parseCallback** - callback which would be used upon data retreival to parse the returning recordset data  
+**onError** - callback which would be used for error handling  
+**onSuccess** - callback which would be executed upon data retreival  
+
 #### call(options);
 
 > Function to execute a stored procedure in the DB
+
+##### options
+
+**storProcName** - name of the stored procedure to be executed  
+**args** - object which consist of arguments to be passed into the stored procedure. key is argument's name and value is argument's value  
+**parseCallback** - callback which would be used upon data retreival to parse the returning recordset data  
+**onError** - callback which would be used for error handling  
+**onSuccess** - callback which would be executed upon data retreival  
 
 ## License
 The MIT License (MIT)
