@@ -55,6 +55,10 @@ var dataProvider = function(options) {
   // options.onSuccess
   // options.onError
   // options.parseCallback
+  // options.dbconfig.user
+  // options.dbconfig.password
+  // options.dbconfig.server
+  // options.dbconfig.database
   that.query = function(options) {
     var query = options.query,
         onSuccess = options.onSuccess,
@@ -75,7 +79,9 @@ var dataProvider = function(options) {
       sql.close();
     };
 
-    sql.connect(dbconfig, function(err) {
+    var config = extend(true, {}, dbconfig, options.dbconfig);
+
+    sql.connect(config, function(err) {
       if (err) {
         errorHandling(sql, err);
         return;
@@ -111,6 +117,10 @@ var dataProvider = function(options) {
   // options.onSuccess
   // options.onError
   // options.parseCallback
+  // options.dbconfig.user
+  // options.dbconfig.password
+  // options.dbconfig.server
+  // options.dbconfig.database
   that.call = function(options) {
     var storProcName = _.escape(options.storProcName),
         query = 'EXEC [dbo].[' + storProcName + ']',
@@ -131,7 +141,8 @@ var dataProvider = function(options) {
       query: query + ' ' + argsQuery.join(','),
       onSuccess: options.onSuccess,
       parseCallback: options.parseCallback,
-      onError: options.onError
+      onError: options.onError,
+      dbconfig: options.dbconfig
     });
   };
 
