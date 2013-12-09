@@ -18,9 +18,11 @@
     "dataProvider"
   ],
   "dependencies": {
-    "lodash-node": "2.3.0",
-    "node.extend": "1.0.8",
-    "mssql": "0.3.4"
+    "lodash-node": "2.3.x",
+    "node.extend": "1.0.x",
+    "mssql": "0.3.4",
+    "mocha": "1.15.x",
+    "chai": "1.8.x"
   },
   "engine": {
     "node": ">=0.10"
