@@ -22,10 +22,14 @@
     "node.extend": "1.0.x",
     "mssql": "0.3.4",
     "mocha": "1.15.x",
-    "chai": "1.8.x"
+    "chai": "1.8.x",
+    "proxyquire": "0.5.x"
   },
   "engine": {
     "node": ">=0.10"
+  },
+  "scripts": {
+    "test": "mocha -R spec -t 11000 --debug tests/nmdb-tests.js"
   },
   "main": "main",
   "license": "MIT"

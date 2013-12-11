@@ -43,24 +43,41 @@ var defaults = {
 
 > Function to execute a query in the DB
 
-##### options
-
 **query** - query in a string format to be executed in MSSQL database  
 **parseCallback** - callback which would be used upon data retreival to parse the returning recordset data  
 **onError** - callback which would be used for error handling  
 **onSuccess** - callback which would be executed upon data retreival  
+**verbose** - true for more console logs for the function  
 
 #### call(options);
 
 > Function to execute a stored procedure in the DB
-
-##### options
 
 **storProcName** - name of the stored procedure to be executed  
 **args** - object which consist of arguments to be passed into the stored procedure. key is argument's name and value is argument's value  
 **parseCallback** - callback which would be used upon data retreival to parse the returning recordset data  
 **onError** - callback which would be used for error handling  
 **onSuccess** - callback which would be executed upon data retreival  
+**verbose** - true for more console logs for the function  
+
+## Testing
+
+### To run tests
+
+```
+npm test
+```
+
+### To debug tests in Node Inspector
+
+1. Uncomment `beforeEach()` function inside of **tests/nmdb-tests.js**
+2. Start node inspector
+3. Run the command above
+4. Open node inspector url in Chrome to start debugging. (the process is set to wait for 10 seconds before hitting the first breakpoint)
+
+### Problem with mocha command
+
+You might want to try to use `node_modules/.bin/mocha` instead
 
 ## License
 The MIT License (MIT)

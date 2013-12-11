@@ -13,6 +13,7 @@ var sql = require('mssql'),
 // options.dbconfig.server
 // options.dbconfig.database
 var dataProvider = function(options) {
+  options = options || {};
   var that = {},
       verbose,
       parseCallback,
@@ -28,8 +29,7 @@ var dataProvider = function(options) {
     },
     parseCallback: undefined,
     onError: undefined,
-    verbose: false,
-    debug: false
+    verbose: false
   };
 
   var init = function(options) {
@@ -55,11 +55,13 @@ var dataProvider = function(options) {
   // options.onSuccess
   // options.onError
   // options.parseCallback
+  // options.verbose
   // options.dbconfig.user
   // options.dbconfig.password
   // options.dbconfig.server
   // options.dbconfig.database
   that.query = function(options) {
+    options = options || {};
     var query = options.query,
         onSuccess = options.onSuccess,
         queryParseCallback = options.parseCallback || parseCallback,
@@ -88,6 +90,7 @@ var dataProvider = function(options) {
       }
       var request = new sql.Request();
       request.multiple = true;
+      request.verbose = (options.verbose !== undefined) ? options.verbose : verbose;
       if (verbose) {
         log('Executing query -> ' + query);
       }
@@ -117,11 +120,13 @@ var dataProvider = function(options) {
   // options.onSuccess
   // options.onError
   // options.parseCallback
+  // options.verbose
   // options.dbconfig.user
   // options.dbconfig.password
   // options.dbconfig.server
   // options.dbconfig.database
   that.call = function(options) {
+    options = options || {};
     var storProcName = _.escape(options.storProcName),
         query = 'EXEC [dbo].[' + storProcName + ']',
         argsQuery = [];
@@ -142,6 +147,7 @@ var dataProvider = function(options) {
       onSuccess: options.onSuccess,
       parseCallback: options.parseCallback,
       onError: options.onError,
+      verbose: options.verbose,
       dbconfig: options.dbconfig
     });
   };
