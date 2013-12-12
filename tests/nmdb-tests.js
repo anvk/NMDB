@@ -54,4 +54,37 @@ describe('NMDB tests', function() {
 
     expect(testIndex).to.equal(testCases.length);
   });
+
+  it('query() function tests', function() {
+    expect(true).to.equal(true);
+  });
+
+  it('call() function building query string tests', function() {
+
+    var nmdb = proxyquire('../libs/nmdb', { 'mssql': {} }),
+        dataLayer = nmdb(),
+        testIndex = 0,
+        testQuery;
+
+    dataLayer.query = function(options) {
+      expect(options.query).to.equal(testQuery);
+      testIndex = testIndex + 1;
+    };
+
+    var testCases = [
+      { input: { storProcName: undefined, args: undefined }, testQuery: undefined },
+      { input: { storProcName: 'myproc', args: undefined }, testQuery: 'EXEC [dbo].[myproc]' },
+      { input: { storProcName: 'myproc', args: {} }, testQuery: 'EXEC [dbo].[myproc]' },
+      { input: { storProcName: 'myproc', args: { a: '5', b: 1, c: true, e: null, d: undefined, f: 1.1, g: 0.1} }, testQuery: 'EXEC [dbo].[myproc] @a=\'5\',@b=1,@c=true,@e=null,@f=1.1,@g=0.1' },
+      { input: { storProcName: 'myproc', args: { a: {} } }, testQuery: 'EXEC [dbo].[myproc] @a=[object Object]' },
+      { input: { storProcName: 'myproc', args: { a: '\'\"+_&' } }, testQuery: 'EXEC [dbo].[myproc] @a=\'&#39;&quot;+_&amp;\'' }
+    ];
+
+    _.each(testCases, function(testCase) {
+      testQuery = testCase.testQuery;
+      dataLayer.call(testCase.input);
+    });
+
+    expect(testIndex).to.equal(testCases.length - 1); // first test never reaches query() function
+  });
 });

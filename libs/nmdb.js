@@ -127,6 +127,11 @@ var dataProvider = function(options) {
   // options.dbconfig.database
   that.call = function(options) {
     options = options || {};
+    if (!options.storProcName) {
+      console.log('storProcName was not passed');
+      return;
+    }
+
     var storProcName = _.escape(options.storProcName),
         query = 'EXEC [dbo].[' + storProcName + ']',
         argsQuery = [];
@@ -142,8 +147,11 @@ var dataProvider = function(options) {
 
       argsQuery.push('@' + key + '=' + value);
     });
+
+    query = (argsQuery.length) ? query + ' ' + argsQuery.join(',') : query;
+
     that.query({
-      query: query + ' ' + argsQuery.join(','),
+      query: query,
       onSuccess: options.onSuccess,
       parseCallback: options.parseCallback,
       onError: options.onError,
