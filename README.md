@@ -72,12 +72,12 @@ npm test
 
 1. Uncomment `beforeEach()` function inside of **tests/nmdb-tests.js**
 2. Start node inspector
-3. Run the command above
+3. Run the command `npm test`
 4. Open node inspector url in Chrome to start debugging. (the process is set to wait for 10 seconds before hitting the first breakpoint)
 
 ### Problem with mocha command
 
-You might want to try to use `node_modules/.bin/mocha` instead
+Instead of `mocha` command try to use `node_modules/.bin/mocha`
 
 ## License
 The MIT License (MIT)
